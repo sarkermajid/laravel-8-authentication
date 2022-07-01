@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/register', function () {
+    return redirect('/');
+});
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'dashboard']);
+});
